@@ -891,7 +891,7 @@ const HomePage: React.FC = () => {
           <section
             ref={dashboardScrollRef}
             data-testid="home-dashboard-scroll"
-            className="flex-1 min-w-0 min-h-0 overflow-x-auto overflow-y-auto touch-pan-y"
+            className="flex-1 min-w-0 min-h-0 overflow-x-hidden overflow-y-auto touch-pan-y"
           >
             {marketReviewNotice ? (
               <div className="mb-3">
@@ -935,7 +935,7 @@ const HomePage: React.FC = () => {
                 <DashboardStateBlock title={t('home.loadingReport')} loading />
               </div>
             ) : !marketReviewReport && selectedReport ? (
-              <div className={isHistoryTrendOpen ? 'max-w-6xl space-y-4 pb-8' : 'max-w-4xl space-y-4 pb-8'}>
+              <div className={isHistoryTrendOpen ? 'w-full space-y-4 pb-8' : 'w-full space-y-4 pb-8'}>
                 <div className="flex flex-wrap items-center justify-end gap-2">
                   {!isMarketReviewHistoryReport ? (
                     <>
