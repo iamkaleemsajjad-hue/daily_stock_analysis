@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BarChart3, Clipboard, FileText, Gauge, Layers, ShieldAlert, TrendingUp, WalletCards, Workflow } from 'lucide-react';
 import { historyApi } from '../../api/history';
 import { formatUiText, UI_TEXT } from '../../i18n/uiText';
@@ -384,7 +384,8 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
   const error = loadError && loadError.recordId === recordId ? loadError.message : null;
   const hasStructuredContent = Boolean(marketReviewPayload?.sections?.length || marketReviewPayload?.markets);
   const isLoading = Boolean(recordId && !providedContent && !hasStructuredContent && loadedMarkdown?.recordId !== recordId && !error);
-  const displayTitle = marketReviewPayload?.rootTitle || marketReviewPayload?.title || meta?.stockName || 'Market Review';
+  const rawTitle = marketReviewPayload?.rootTitle || marketReviewPayload?.title || meta?.stockName || 'Market Review';
+  const displayTitle = rawTitle.replace(/[🎯]/g, '').replace(/^#\s*/, '').trim();
   const structuredContent = useMemo(
     () => stripTopHeading(content, displayTitle),
     [content, displayTitle],
@@ -470,23 +471,137 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
     },
   ], [marketReviewText, summary, text.marketSentiment]);
 
+  const waveCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = waveCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    let t = 0;
+
+    const PARTICLE_COUNT = 120;
+    type Particle = { x: number; y: number; baseY: number; z: number; speed: number; size: number; opacity: number };
+    let particles: Particle[] = [];
+
+    const initParticles = () => {
+      particles = [];
+      const w = canvas.width;
+      const h = canvas.height;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const x = (i / PARTICLE_COUNT) * w * 1.2 - w * 0.1;
+        const baseY = h * 0.5;
+        particles.push({
+          x,
+          y: baseY,
+          baseY,
+          z: Math.random(),
+          speed: 0.008 + Math.random() * 0.012,
+          size: 0.8 + Math.random() * 1.6,
+          opacity: 0.15 + Math.random() * 0.55,
+        });
+      }
+    };
+
+    const resize = () => {
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      canvas.width = rect?.width ?? 400;
+      canvas.height = rect?.height ?? 80;
+      initParticles();
+    };
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    if (canvas.parentElement) ro.observe(canvas.parentElement);
+
+    const draw = () => {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      t += 0.018;
+
+      particles.forEach((p) => {
+        const wave1 = Math.sin(p.x * 0.018 + t * 1.1) * (h * 0.18);
+        const wave2 = Math.sin(p.x * 0.032 + t * 0.7 + 1.4) * (h * 0.09);
+        const wave3 = Math.sin(p.x * 0.009 + t * 0.5 + 2.8) * (h * 0.12);
+        p.y = p.baseY + wave1 + wave2 + wave3;
+
+        const scale = 0.4 + p.z * 0.6;
+        const size = p.size * scale;
+        const alpha = p.opacity * scale;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+
+        // draw connecting lines to nearby particles
+        particles.forEach((p2) => {
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 38 && dist > 0) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.22 * (1 - dist / 38)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      ro.disconnect();
+    };
+  }, []);
+
   return (
     <div className={`animate-fade-in space-y-4 pb-8 ${className}`}>
       <Card variant="gradient" padding="md" className="home-report-hero text-left">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold text-secondary-text">
-              <BarChart3 className="h-4 w-4" aria-hidden="true" />
-              <span>MARKET REVIEW</span>
+        {/* Wave particle canvas background */}
+        <canvas
+          ref={waveCanvasRef}
+          aria-hidden="true"
+          className="market-wave-canvas"
+        />
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between relative z-10">
+          <div className="flex items-center gap-4 min-w-0">
+            {/* Black/White target icon */}
+            <div className="market-target-icon shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+                {/* Outer ring */}
+                <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.9"/>
+                {/* Mid ring */}
+                <circle cx="24" cy="24" r="15" stroke="currentColor" strokeWidth="2" strokeOpacity="0.65"/>
+                {/* Inner ring */}
+                <circle cx="24" cy="24" r="8" stroke="currentColor" strokeWidth="2" strokeOpacity="0.85"/>
+                {/* Checkmark */}
+                <path d="M19 24.5l3.5 3.5 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
-            <h2 className="text-[26px] font-bold leading-tight text-foreground sm:text-[30px]">
-              {displayTitle}
-            </h2>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-text">
-              {meta?.stockCode ? (
-                <span className="home-accent-chip px-2 py-0.5 font-mono">{meta.stockCode}</span>
-              ) : null}
-              {meta?.createdAt ? <span>{new Date(meta.createdAt).toLocaleString()}</span> : null}
+            <div className="min-w-0">
+              <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold text-secondary-text">
+                <BarChart3 className="h-4 w-4" aria-hidden="true" />
+                <span>MARKET REVIEW</span>
+              </div>
+              <h2 className="text-[26px] font-bold leading-tight text-foreground sm:text-[30px]">
+                {displayTitle}
+              </h2>
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-text">
+                {meta?.stockCode ? (
+                  <span className="home-accent-chip px-2 py-0.5 font-mono">{meta.stockCode}</span>
+                ) : null}
+                {meta?.createdAt ? <span>{new Date(meta.createdAt).toLocaleString()}</span> : null}
+              </div>
             </div>
           </div>
 
