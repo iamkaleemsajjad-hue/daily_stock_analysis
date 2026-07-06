@@ -42,7 +42,7 @@
   --border: 0 0% 84%;
   --input: 0 0% 84%;
   --ring: 142 71% 38%;
-  --radius: 1rem;
+  --radius: 0px;
   --elevated: 0 0% 98%;
   --hover: 0 0% 90%;
   --secondary-text: 0 0% 28%;
@@ -784,7 +784,7 @@
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 0;
   font-size: 12px;
   font-weight: 500;
 }
@@ -816,7 +816,7 @@
   display: flex;
   align-items: center;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   border: 1px solid transparent;
   transition: all 0.2s ease;
@@ -851,7 +851,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -1109,7 +1109,7 @@ textarea {
   --terminal-card-shadow-hover: var(--shadow-soft-card-strong);
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0;
   border: 1px solid var(--terminal-card-border);
   background: linear-gradient(
     180deg,
@@ -1123,7 +1123,7 @@ textarea {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1px;
   background: linear-gradient(
     135deg,
@@ -1158,7 +1158,7 @@ textarea {
 
 .gradient-border-card {
   position: relative;
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1px;
   background: linear-gradient(
     180deg,
@@ -1171,7 +1171,7 @@ textarea {
 
 .gradient-border-card-inner {
   height: 100%;
-  border-radius: calc(1rem - 1px);
+  border-radius: 0;
   background: linear-gradient(
     180deg,
     hsl(var(--elevated) / 0.98),
@@ -1182,7 +1182,7 @@ textarea {
 .glass-card {
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   background: hsl(var(--card) / 0.72);
   backdrop-filter: blur(18px);
@@ -1194,7 +1194,7 @@ textarea {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1px;
   background: linear-gradient(
     135deg,
@@ -1242,7 +1242,7 @@ textarea {
 .dashboard-card {
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0;
   border: 1px solid var(--border-subtle);
   background: hsl(var(--card) / 0.72);
   backdrop-filter: blur(18px);
@@ -1254,7 +1254,7 @@ textarea {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1px;
   background: linear-gradient(
     135deg,
@@ -1304,7 +1304,7 @@ textarea {
 .home-subpanel {
   position: relative;
   overflow: hidden;
-  border-radius: 0.875rem;
+  border-radius: 0;
   border: 1px solid var(--home-panel-border);
   background: var(--home-panel-subtle-bg);
   box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.72);
@@ -1327,7 +1327,7 @@ textarea {
 .home-history-item {
   position: relative;
   overflow: hidden;
-  border-radius: 0.875rem;
+  border-radius: 0;
   border: 1px solid var(--home-panel-border);
   background: var(--home-history-item-bg);
   box-shadow: 0 8px 16px hsl(220 18% 30% / 0.04);
@@ -1460,7 +1460,7 @@ textarea {
   color: var(--home-action-ai-text);
   background: var(--home-action-ai-bg);
   border: 1px solid var(--home-action-ai-border);
-  border-radius: 0.375rem;
+  border-radius: 0;
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
@@ -1512,7 +1512,7 @@ textarea {
   width: 0.875rem;
   height: 0.875rem;
   flex-shrink: 0;
-  border-radius: 0.25rem;
+  border-radius: 0;
   border: 1px solid hsl(var(--border));
   background: hsl(var(--card) / 0.96);
   box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.72);
@@ -1577,7 +1577,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  border-radius: 0.75rem;
+  border-radius: 0;
   border: 1px solid transparent;
   padding: 0.42rem 0.6rem;
   font-size: 0.75rem;
@@ -1902,7 +1902,7 @@ textarea {
 .home-markdown-prose :where(code) {
   color: hsl(var(--primary));
   background: hsl(var(--primary) / 0.1);
-  border-radius: 0.375rem;
+  border-radius: 0;
   padding: 0.125rem 0.375rem;
 }
 
@@ -1939,7 +1939,7 @@ textarea {
 .home-markdown-prose :where(blockquote) {
   border-color: var(--home-prose-blockquote-border);
   background: var(--home-prose-blockquote-bg);
-  border-radius: 0 0.75rem 0.75rem 0;
+  border-radius: 0;
   padding: 0.5rem 1rem;
   color: var(--text-secondary-text);
 }
@@ -1962,7 +1962,7 @@ textarea {
   justify-content: center;
   cursor: pointer;
   gap: 0.5rem;
-  border-radius: 0.9rem;
+  border-radius: 0;
   padding: 0.7rem 1.1rem;
   font-weight: 600;
   transition:
@@ -2298,16 +2298,16 @@ textarea {
   background-color: var(--chat-bubble-user-bg);
   color: hsl(var(--foreground) / 0.88);
   border: 1px solid var(--chat-bubble-user-border);
-  border-radius: 1rem;
-  border-top-right-radius: 0.125rem;
+  border-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .chat-bubble-ai {
   background-color: var(--chat-bubble-ai-bg);
   color: hsl(var(--secondary-text) / 0.94);
   border: 1px solid var(--chat-bubble-ai-border);
-  border-radius: 1rem;
-  border-top-left-radius: 0.125rem;
+  border-radius: 0;
+  border-top-left-radius: 0;
 }
 
 /* =========================================
@@ -2376,7 +2376,7 @@ textarea {
   color: var(--chat-prose-code-fg);
   background: var(--chat-prose-code-bg);
   padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  border-radius: 0;
   font-size: 0.75rem;
   word-break: break-all;
 }
@@ -2386,7 +2386,7 @@ textarea {
   overflow-x: auto;
   background: var(--chat-prose-pre-bg);
   border: 1px solid var(--chat-prose-border);
-  border-radius: 0.5rem;
+  border-radius: 0;
   padding: 0.75rem;
 }
 
@@ -2409,7 +2409,7 @@ textarea {
 .chat-prose blockquote {
   border-color: hsl(30 10% 94% / 0.14);
   background: hsl(30 10% 94% / 0.05);
-  border-radius: 0 0.75rem 0.75rem 0;
+  border-radius: 0;
   padding: 0.5rem 1rem;
   color: var(--text-secondary-text);
 }
@@ -2440,7 +2440,7 @@ textarea {
   z-index: 50;
   width: 16rem;
   padding: 0.625rem;
-  border-radius: 0.5rem;
+  border-radius: 0;
   background: hsl(var(--elevated));
   border: 1px solid var(--border);
   box-shadow: 0 18px 48px rgba(3, 8, 20, 0.22);
@@ -2473,7 +2473,7 @@ textarea {
   align-items: flex-start;
   gap: 0.75rem;
   overflow: hidden;
-  border-radius: 0.75rem;
+  border-radius: 0;
   border: 1px solid transparent;
   padding: 0.625rem;
   transition:
@@ -2589,7 +2589,7 @@ textarea {
 
 .session-item-row .delete-btn {
   flex-shrink: 0;
-  border-radius: 0.55rem;
+  border-radius: 0;
   border: 1px solid transparent;
   padding: 0.3rem;
   color: hsl(var(--muted-text));
@@ -2655,7 +2655,7 @@ textarea {
   flex-wrap: wrap;
   gap: 1rem;
   padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 0;
   border: 1px solid var(--backtest-border-dim);
   background: hsl(var(--elevated));
   font-size: 0.75rem;
@@ -2690,7 +2690,7 @@ textarea {
   align-items: center;
   gap: 0.375rem;
   padding: 0.375rem 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -2742,7 +2742,7 @@ textarea {
 
 .backtest-table-wrapper {
   overflow-x: auto;
-  border-radius: 0.75rem;
+  border-radius: 0;
   border: 1px solid var(--backtest-border-subtle);
   background: var(--backtest-table-bg);
   box-shadow: 0 18px 46px hsl(var(--background) / 0.18);
@@ -2879,7 +2879,7 @@ textarea {
   width: 3rem;
   height: 3rem;
   margin-bottom: 0.75rem;
-  border-radius: 0.75rem;
+  border-radius: 0;
   background: hsl(var(--elevated));
   display: flex;
   align-items: center;

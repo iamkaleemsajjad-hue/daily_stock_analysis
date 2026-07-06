@@ -120,12 +120,12 @@ export default {
         'cyan/22': '0 18px 34px hsl(142 71% 45% / 0.25)',
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-        xl: '12px',
-        '2xl': '16px',
-        '3xl': '20px',
+        lg: '0px',
+        md: '0px',
+        sm: '0px',
+        xl: '0px',
+        '2xl': '0px',
+        '3xl': '0px',
       },
       fontSize: {
         xxs: '10px',
