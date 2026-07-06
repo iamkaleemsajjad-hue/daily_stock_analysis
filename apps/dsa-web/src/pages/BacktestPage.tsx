@@ -437,9 +437,10 @@ const BacktestPage: React.FC = () => {
   return (
     <div className="backtest-page min-h-full flex flex-col bg-transparent">
       {/* Header */}
-      <header className="flex-shrink-0 border-b border-white/5 px-3 py-3 sm:px-4">
-        <div className="flex max-w-5xl flex-wrap items-center gap-2">
-          <div className="relative min-w-0 flex-[1_1_220px]">
+      <header className="flex-shrink-0 border-b border-white/5 px-4 py-3">
+        {/* Row 1: Search + Filter + Eval + Phase + Dates */}
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <div className="relative min-w-0 flex-[1_1_180px] max-w-xs">
             <input
               type="text"
               value={codeFilter}
@@ -454,11 +455,12 @@ const BacktestPage: React.FC = () => {
             type="button"
             onClick={handleFilter}
             disabled={isLoadingResults}
-            className="btn-secondary flex items-center gap-1.5 whitespace-nowrap"
+            className="btn-secondary flex items-center gap-1.5 whitespace-nowrap h-10"
           >
             {text.filter}
           </button>
-          <div className="flex items-center gap-2 whitespace-nowrap lg:w-40 lg:justify-between">
+          <div className="h-5 w-px bg-white/10 mx-1 hidden sm:block" />
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <span className="text-xs text-muted-text">{text.evalWindow}</span>
             <input
               type="number"
@@ -468,7 +470,7 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setEvalDays(e.target.value)}
               placeholder="10"
               disabled={isRunning}
-              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-24 text-center tabular-nums`}
+              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-16 text-center tabular-nums`}
             />
           </div>
           <div className="flex items-center gap-2 whitespace-nowrap">
@@ -477,7 +479,7 @@ const BacktestPage: React.FC = () => {
               value={phaseFilter}
               onChange={(e) => setPhaseFilter(e.target.value as BacktestPhaseFilter)}
               disabled={isRunning}
-              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-28`}
+              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-32`}
             >
               {phaseFilterOptions.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -493,7 +495,7 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateFrom(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
-              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-40 text-center tabular-nums`}
+              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>
           <div className="flex items-center gap-2 whitespace-nowrap">
@@ -505,9 +507,12 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateTo(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
-              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-40 text-center tabular-nums`}
+              className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>
+        </div>
+        {/* Row 2: Toggle buttons + Run backtest (right-aligned) */}
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleShowNextDay}
@@ -526,24 +531,26 @@ const BacktestPage: React.FC = () => {
             <span className="dot" />
             {text.forceRerun}
           </button>
-          <button
-            type="button"
-            onClick={handleRun}
-            disabled={isRunning}
-            className="btn-primary flex items-center gap-1.5 whitespace-nowrap"
-          >
-            {isRunning ? (
-              <>
-                <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                {text.running}
-              </>
-            ) : (
-              text.runBacktest
-            )}
-          </button>
+          <div className="ml-auto">
+            <button
+              type="button"
+              onClick={handleRun}
+              disabled={isRunning}
+              className="btn-primary flex items-center gap-1.5 whitespace-nowrap"
+            >
+              {isRunning ? (
+                <>
+                  <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  {text.running}
+                </>
+              ) : (
+                text.runBacktest
+              )}
+            </button>
+          </div>
         </div>
         {runResult && (
           <div className="mt-2 max-w-4xl">

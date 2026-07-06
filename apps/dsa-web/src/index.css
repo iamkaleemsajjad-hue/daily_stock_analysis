@@ -2908,98 +2908,48 @@ textarea {
   }
 }
 
-/* ============ Native date input — theme calendar picker ============ */
-input[type="date"],
-input[type="date"]::-webkit-calendar-picker-indicator {
-  color-scheme: dark;
+
+/* ============ Form controls — green accent-color (replaces browser blue) ============ */
+/* accent-color controls: calendar today-highlight, select checkmarks, checkbox/radio */
+:root {
+  accent-color: hsl(142 71% 38%);
+}
+.dark {
+  accent-color: hsl(142 71% 42%);
 }
 
+/* Date input — dark color-scheme so popup uses dark background */
 .dark input[type="date"] {
+  color-scheme: dark;
   background: var(--input-surface-bg);
   color: hsl(var(--foreground));
-  border-color: var(--input-surface-border);
+}
+
+/* Calendar icon — subtle green tint, no distorting filter */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) saturate(100%) invert(60%) sepia(60%) saturate(400%) hue-rotate(95deg) brightness(0.9);
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* ============ Select native dropdown — dark bg, green selected option ============ */
+/* Note: option:checked background-color works in Firefox; Chrome uses system color */
+.dark select {
   color-scheme: dark;
 }
 
-/* Calendar picker popup accent colour — override browser blue */
-input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-  color: hsl(var(--foreground));
+.dark select option {
+  background-color: hsl(0 0% 10%);
+  color: hsl(30 10% 92%);
 }
 
-input[type="date"]:focus::-webkit-datetime-edit {
-  color: hsl(var(--foreground));
+.dark select option:checked {
+  background-color: hsl(142 71% 18%);
+  color: hsl(142 71% 80%);
 }
 
-/* Today highlight — green instead of browser blue */
-::-webkit-calendar-picker-indicator {
-  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(90deg);
-  opacity: 0.7;
-  cursor: pointer;
-}
-.dark ::-webkit-calendar-picker-indicator {
-  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(90deg);
-  opacity: 0.6;
-}
-
-/* ============ Select / phase dropdown — dark theme ============ */
-select.input-surface,
-select.input-surface option {
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
-
-select.input-surface option:checked,
-select.input-surface option:hover {
-  background: hsl(var(--primary) / 0.18);
-  color: hsl(var(--foreground));
-}
-
-.dark select.input-surface {
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-  border-color: var(--input-surface-border);
-}
-
-.dark select.input-surface option {
-  background: hsl(0 0% 10%);
-  color: hsl(var(--foreground));
-}
-
-.dark select.input-surface option:checked {
-  background: hsl(var(--primary) / 0.20);
-  color: hsl(var(--foreground));
-}
-
-/* ============ Phase / market-phase badge boxes ============ */
-.badge-phase,
-[class*="phase-badge"] {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--foreground) / 0.10);
-  color: hsl(var(--secondary-text));
-  border-radius: 0;
-}
-
-.dark .badge-phase,
-.dark [class*="phase-badge"] {
-  background: hsl(0 0% 10%);
-  border-color: hsl(var(--foreground) / 0.12);
-  color: hsl(var(--secondary-text));
-}
-
-/* Backtest phase select — match themed select */
-.backtest-page select,
-.backtest-page select option {
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
-
-.dark .backtest-page select {
-  background: hsl(0 0% 9%);
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--foreground) / 0.12);
-}
-
-.dark .backtest-page select option {
-  background: hsl(0 0% 10%);
-  color: hsl(var(--foreground));
+/* Light mode select options */
+select option:checked {
+  background-color: hsl(142 71% 90%);
+  color: hsl(142 71% 20%);
 }
