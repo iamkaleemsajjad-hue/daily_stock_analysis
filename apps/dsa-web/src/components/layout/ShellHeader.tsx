@@ -1,65 +1,65 @@
 import type React from 'react';
-import { Menu, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Menu, ChevronRight } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useUiLanguage } from '../../contexts/UiLanguageContext';
 import type { UiTextKey } from '../../i18n/uiText';
-import { UiLanguageToggle } from '../i18n/UiLanguageToggle';
-import { ThemeToggle } from '../theme/ThemeToggle';
 
 type ShellHeaderProps = {
-  collapsed: boolean;
+  sidebarOpen: boolean;
   onToggleSidebar: () => void;
   onOpenMobileNav: () => void;
 };
 
-const TITLES: Record<string, { title: UiTextKey; description: UiTextKey }> = {
-  '/': { title: 'layout.route.home.title', description: 'layout.route.home.description' },
-  '/chat': { title: 'layout.route.chat.title', description: 'layout.route.chat.description' },
-  '/portfolio': { title: 'layout.route.portfolio.title', description: 'layout.route.portfolio.description' },
-  '/screening': { title: 'layout.route.screening.title', description: 'layout.route.screening.description' },
-  '/backtest': { title: 'layout.route.backtest.title', description: 'layout.route.backtest.description' },
-  '/alerts': { title: 'layout.route.alerts.title', description: 'layout.route.alerts.description' },
-  '/usage': { title: 'layout.route.usage.title', description: 'layout.route.usage.description' },
-  '/settings': { title: 'layout.route.settings.title', description: 'layout.route.settings.description' },
+const TITLES: Record<string, UiTextKey> = {
+  '/': 'layout.route.home.title',
+  '/chat': 'layout.route.chat.title',
+  '/portfolio': 'layout.route.portfolio.title',
+  '/screening': 'layout.route.screening.title',
+  '/backtest': 'layout.route.backtest.title',
+  '/alerts': 'layout.route.alerts.title',
+  '/usage': 'layout.route.usage.title',
+  '/settings': 'layout.route.settings.title',
+  '/decision-signals': 'layout.route.decisionSignals.title',
 };
 
 export const ShellHeader: React.FC<ShellHeaderProps> = ({
-  collapsed,
   onToggleSidebar,
   onOpenMobileNav,
 }) => {
   const location = useLocation();
   const { t } = useUiLanguage();
-  const current = TITLES[location.pathname];
+
+  // Get just the base path (e.g. /chat/123 → /chat)
+  const basePath = '/' + location.pathname.split('/')[1];
+  const pageTitle = TITLES[basePath] ? t(TITLES[basePath]) : t('layout.appFallbackTitle');
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/84 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-[1680px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          onClick={onOpenMobileNav}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border/70 bg-card/70 text-secondary-text transition-colors hover:bg-hover hover:text-foreground lg:hidden"
-          aria-label={t('layout.openNav')}
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+    <header className="flex-shrink-0 flex items-center h-12 px-4 border-b border-[var(--shell-sidebar-border)] bg-background/90 backdrop-blur-sm z-20">
+      {/* Hamburger — works on all screen sizes */}
+      <button
+        type="button"
+        onClick={onToggleSidebar}
+        className="hidden lg:inline-flex h-8 w-8 items-center justify-center rounded-none text-secondary-text transition-colors hover:bg-hover hover:text-foreground mr-3"
+        aria-label="Toggle sidebar"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
 
-        <button
-          type="button"
-          onClick={onToggleSidebar}
-          className="hidden h-10 w-10 items-center justify-center rounded-xl border border-border/70 bg-card/70 text-secondary-text transition-colors hover:bg-hover hover:text-foreground lg:inline-flex"
-          aria-label={collapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
-        >
-          {collapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
-        </button>
+      {/* Mobile hamburger */}
+      <button
+        type="button"
+        onClick={onOpenMobileNav}
+        className="inline-flex lg:hidden h-8 w-8 items-center justify-center rounded-none text-secondary-text transition-colors hover:bg-hover hover:text-foreground mr-3"
+        aria-label="Open navigation"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
 
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-foreground">{current ? t(current.title) : t('layout.appFallbackTitle')}</p>
-          <p className="truncate text-xs text-secondary-text">{current ? t(current.description) : t('layout.appFallbackDescription')}</p>
-        </div>
-
-        <UiLanguageToggle />
-        <ThemeToggle />
+      {/* Breadcrumb: DSA > PageName */}
+      <div className="flex items-center gap-1.5 text-sm">
+        <span className="font-semibold text-foreground">DSA</span>
+        <ChevronRight className="h-3.5 w-3.5 text-secondary-text/60 shrink-0" />
+        <span className="text-secondary-text">{pageTitle}</span>
       </div>
     </header>
   );

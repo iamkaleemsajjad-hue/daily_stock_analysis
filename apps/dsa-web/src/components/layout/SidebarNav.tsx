@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Activity, BarChart3, Bell, BriefcaseBusiness, Gauge, Home, LogOut, MessageSquareQuote, Search, Settings2 } from 'lucide-react';
+import {
+  Activity, BarChart3, Bell, BriefcaseBusiness, Gauge,
+  Home, LogOut, MessageSquareQuote, Search, Settings2
+} from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { ALPHASIFT_CONFIG_CHANGED_EVENT, SYSTEM_CONFIG_CHANGED_EVENT, alphasiftApi } from '../../api/alphasift';
 import { useAuth } from '../../contexts/AuthContext';
@@ -39,7 +42,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'settings', labelKey: 'layout.nav.settings', to: '/settings', icon: Settings2 },
 ];
 
-export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNavigate, variant = 'default' }) => {
+export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNavigate }) => {
   const { authEnabled, logout } = useAuth();
   const { t } = useUiLanguage();
   const completionBadge = useAgentChatStore((state) => state.completionBadge);
@@ -48,24 +51,17 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
 
   useEffect(() => {
     let active = true;
-
     const refreshAlphaSiftStatus = async () => {
       try {
         const status = await alphasiftApi.getStatus();
-        if (active) {
-          setShowAlphaSiftNav(status.enabled);
-        }
+        if (active) setShowAlphaSiftNav(status.enabled);
       } catch {
-        if (active) {
-          setShowAlphaSiftNav(false);
-        }
+        if (active) setShowAlphaSiftNav(false);
       }
     };
-
     void refreshAlphaSiftStatus();
     window.addEventListener(ALPHASIFT_CONFIG_CHANGED_EVENT, refreshAlphaSiftStatus);
     window.addEventListener(SYSTEM_CONFIG_CHANGED_EVENT, refreshAlphaSiftStatus);
-
     return () => {
       active = false;
       window.removeEventListener(ALPHASIFT_CONFIG_CHANGED_EVENT, refreshAlphaSiftStatus);
@@ -74,114 +70,91 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
   }, []);
 
   const navItems = showAlphaSiftNav ? NAV_ITEMS : NAV_ITEMS.filter((item) => item.key !== 'screening');
-  const isRail = variant === 'rail';
-  const itemBaseClass = cn(
-    'group relative flex h-[var(--nav-item-height)] w-full items-center overflow-hidden rounded-none border border-transparent text-sm leading-none text-secondary-text transition-all',
-    isRail
-      ? 'justify-center gap-2.5 px-2'
-      : collapsed
-        ? 'justify-center px-0'
-        : 'gap-3 px-[var(--nav-item-padding-x)]'
-  );
-  const itemInteractiveClass = cn(
-    itemBaseClass,
-    'hover:bg-[var(--nav-hover-bg)] hover:text-foreground'
-  );
-  const itemActiveClass = 'border-[var(--nav-active-border)] bg-[var(--nav-active-bg)] font-medium text-[hsl(var(--primary))]';
-  const itemIconClass = cn(isRail ? 'h-[18px] w-[18px]' : 'h-5 w-5', 'shrink-0');
-  const itemLabelClass = cn('truncate', isRail ? 'text-center' : '');
+
+  // Base classes for all nav items
+  const itemBase =
+    'group relative flex items-center w-full gap-3 px-4 py-2.5 text-sm text-secondary-text transition-colors duration-150 hover:bg-[var(--nav-hover-bg)] hover:text-foreground rounded-none';
+  const itemActive =
+    'bg-[var(--nav-active-bg)] text-foreground font-medium border-l-2 border-[hsl(var(--primary))]';
+  const iconBase = 'h-[18px] w-[18px] shrink-0';
 
   return (
-    <div className="flex h-full flex-col">
-      <div
-        className={cn(
-          'flex items-center',
-          isRail ? 'mb-5 justify-center gap-2 pt-1' : 'mb-4 gap-2 px-1',
-          collapsed || isRail ? 'justify-center' : ''
-        )}
-      >
-        <div
-          className={cn(
-            'flex items-center justify-center bg-primary-gradient text-[hsl(var(--primary-foreground))] shadow-[0_12px_28px_var(--nav-brand-shadow)]',
-            isRail ? 'h-9 w-9 rounded-none' : 'h-10 w-10 rounded-none'
-          )}
-        >
-          <BarChart3 className={cn(isRail ? 'h-[19px] w-[19px]' : 'h-5 w-5')} />
+    <div className="flex h-full flex-col overflow-hidden">
+      {/* Logo / Brand */}
+      <div className="flex items-center gap-2 px-4 py-5 border-b border-[var(--shell-sidebar-border)]">
+        <div className="flex h-8 w-8 items-center justify-center bg-primary-gradient rounded-none shrink-0">
+          <BarChart3 className="h-[18px] w-[18px] text-[hsl(var(--primary-foreground))]" />
         </div>
-        {!collapsed ? (
-          <p className={cn('min-w-0 truncate font-semibold text-foreground', isRail ? 'text-[0.95rem] leading-none' : 'text-sm')}>DSA</p>
-        ) : null}
+        {!collapsed && (
+          <span className="text-base font-bold tracking-wide text-foreground leading-none">DSA</span>
+        )}
       </div>
 
-      <nav className={cn('flex flex-col gap-1.5', isRail ? '' : 'flex-1')} aria-label={t('layout.mainNav')}>
+      {/* Navigation */}
+      <nav className="flex-1 flex flex-col gap-0.5 py-3 overflow-y-auto" aria-label={t('layout.mainNav')}>
         {navItems.map(({ key, labelKey, to, icon: Icon, exact, badge }) => {
           const label = t(labelKey);
           return (
-          <NavLink
-            key={key}
-            to={to}
-            end={exact}
-            onClick={onNavigate}
-            aria-label={label}
-            className={({ isActive }) =>
-              cn(
-                itemInteractiveClass,
-                isActive ? itemActiveClass : ''
-              )
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <Icon className={cn(itemIconClass, isActive ? 'text-[var(--nav-icon-active)]' : 'text-current')} />
-                {!collapsed ? <span className={itemLabelClass}>{label}</span> : null}
-                {badge === 'completion' && completionBadge ? (
-                  <StatusDot
-                    tone="info"
-                    data-testid="chat-completion-badge"
-                    className={cn(
-                      'absolute right-3 border-2 border-background shadow-[0_0_10px_var(--nav-indicator-shadow)]',
-                      collapsed ? 'right-2 top-2' : ''
-                    )}
-                    aria-label={t('layout.newChatMessage')}
-                  />
-                ) : null}
-              </>
-            )}
-          </NavLink>
-        );
+            <NavLink
+              key={key}
+              to={to}
+              end={exact}
+              onClick={onNavigate}
+              aria-label={label}
+              className={({ isActive }) => cn(itemBase, isActive ? itemActive : '')}
+            >
+              {({ isActive }) => (
+                <>
+                  <Icon className={cn(iconBase, isActive ? 'text-[hsl(var(--primary))]' : 'text-current')} />
+                  {!collapsed && <span className="truncate">{label}</span>}
+                  {badge === 'completion' && completionBadge ? (
+                    <StatusDot
+                      tone="info"
+                      data-testid="chat-completion-badge"
+                      className="absolute right-3 border-2 border-background shadow-[0_0_10px_var(--nav-indicator-shadow)]"
+                      aria-label={t('layout.newChatMessage')}
+                    />
+                  ) : null}
+                </>
+              )}
+            </NavLink>
+          );
         })}
 
+        {/* Theme toggle as nav item */}
         <ThemeToggle
-          variant={isRail ? 'rail' : 'nav'}
+          variant="nav"
           collapsed={collapsed}
           wrapperClassName="w-full"
-          triggerClassName={itemInteractiveClass}
-          triggerActiveClassName={itemActiveClass}
-          iconClassName={itemIconClass}
-          labelClassName={itemLabelClass}
-        />
-        <UiLanguageToggle
-          variant={isRail ? 'rail' : 'nav'}
-          collapsed={collapsed}
-          wrapperClassName="w-full"
-          triggerClassName={itemInteractiveClass}
-          triggerActiveClassName={itemActiveClass}
-          iconClassName={itemIconClass}
-          labelClassName={itemLabelClass}
+          triggerClassName={itemBase}
+          triggerActiveClassName={itemActive}
+          iconClassName={iconBase}
+          labelClassName="truncate"
         />
       </nav>
 
+      {/* Bottom: Language toggle */}
+      <div className="border-t border-[var(--shell-sidebar-border)] pb-2 pt-1">
+        <UiLanguageToggle
+          variant="nav"
+          collapsed={collapsed}
+          wrapperClassName="w-full"
+          triggerClassName={itemBase}
+          triggerActiveClassName={itemActive}
+          iconClassName={iconBase}
+          labelClassName="truncate"
+        />
+      </div>
+
+      {/* Logout */}
       {authEnabled ? (
         <button
           type="button"
           onClick={() => setShowLogoutConfirm(true)}
-          className={cn(
-            itemInteractiveClass,
-            isRail ? 'mt-1.5' : 'mt-5'
-          )}
+          className={cn(itemBase, 'mb-2')}
         >
-          <LogOut className={itemIconClass} />
-          {!collapsed ? <span className={itemLabelClass}>{t('layout.logout')}</span> : null}
+          <LogOut className={iconBase} />
+          {!collapsed && <span className="truncate">{t('layout.logout')}</span>}
         </button>
       ) : null}
 
