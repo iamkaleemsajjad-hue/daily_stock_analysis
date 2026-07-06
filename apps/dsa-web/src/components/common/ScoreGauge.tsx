@@ -99,22 +99,22 @@ export const ScoreGauge: React.FC<ScoreGaugeProps> = ({
   // Light theme uses a restrained glow; dark theme keeps the stronger terminal-style glow.
   const sentimentConfig = {
     greed: {
-      color: '#00d4ff',       // Cyan
-      glowFilter: 'rgba(0, 212, 255, 0.66)',
-      lightColor: '#22d3ee',  // Lighter cyan
-      lightEndColor: '#0891b2', // Darker cyan
+      color: '#22c55e',          // Green — matches primary
+      glowFilter: 'rgba(34, 197, 94, 0.45)',
+      lightColor: '#4ade80',     // Lighter green
+      lightEndColor: '#16a34a',  // Darker green
     },
     neutral: {
-      color: '#a855f7',       // Purple
-      glowFilter: 'rgba(168, 85, 247, 0.66)',
-      lightColor: '#c084fc',  // Lighter purple
-      lightEndColor: '#9333ea', // Darker purple
+      color: '#94a3b8',          // Muted slate-gray — theme neutral
+      glowFilter: 'rgba(148, 163, 184, 0.30)',
+      lightColor: '#cbd5e1',     // Lighter slate
+      lightEndColor: '#64748b',  // Darker slate
     },
     fear: {
-      color: '#ff4466',       // Red
-      glowFilter: 'rgba(255, 68, 102, 0.66)',
-      lightColor: '#fb7185',  // Lighter rose
-      lightEndColor: '#e11d48', // Darker rose
+      color: '#f87171',          // Soft red
+      glowFilter: 'rgba(248, 113, 113, 0.40)',
+      lightColor: '#fca5a5',     // Lighter rose
+      lightEndColor: '#dc2626',  // Darker rose
     },
   };
 
@@ -130,18 +130,18 @@ export const ScoreGauge: React.FC<ScoreGaugeProps> = ({
   const uniqueId = `${sentimentKey}-${score}-${animatedScore.toFixed(0)}`;
   const gaugeTheme: GaugeVisualStyle = isDark
     ? {
-        svgFilter: `drop-shadow(0 0 12px ${colors.glowFilter})`,
-        glowBlur: 4,
-        glowOpacity: 0.3,
+        svgFilter: `drop-shadow(0 0 7px ${colors.glowFilter})`,
+        glowBlur: 3,
+        glowOpacity: 0.18,
         glowStrokeExtra: gap,
-        valueTextShadow: `0 0 30px ${colors.glowFilter}`,
+        valueTextShadow: `0 0 18px ${colors.glowFilter}`,
       }
     : {
-        svgFilter: `drop-shadow(0 0 8px ${colors.glowFilter.replace('0.66', '0.28')})`,
-        glowBlur: 3.4,
-        glowOpacity: 0.26,
-        glowStrokeExtra: Math.max(3, gap * 0.55),
-        valueTextShadow: `0 0 16px ${colors.glowFilter.replace('0.66', '0.22')}`,
+        svgFilter: `drop-shadow(0 0 5px ${colors.glowFilter.replace('0.45', '0.20').replace('0.30', '0.15').replace('0.40', '0.16')})`,
+        glowBlur: 2.5,
+        glowOpacity: 0.16,
+        glowStrokeExtra: Math.max(3, gap * 0.5),
+        valueTextShadow: `0 0 12px ${colors.glowFilter.replace('0.45', '0.14').replace('0.30', '0.10').replace('0.40', '0.12')}`,
       };
 
   return (

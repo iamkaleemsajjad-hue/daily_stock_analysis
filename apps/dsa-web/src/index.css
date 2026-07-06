@@ -354,9 +354,9 @@
   --sentiment-neutral: var(--color-purple);
   --sentiment-fear: var(--color-danger);
 
-  /* Sentiment indicator glow effect (Dark theme) */
-  --glow-spread: 10px;
-  --glow-intensity: 0.25;
+  /* Sentiment indicator glow effect (Dark theme) — reduced intensity */
+  --glow-spread: 8px;
+  --glow-intensity: 0.14;
   --sentiment-greed-glow: hsl(var(--sentiment-greed) / var(--glow-intensity));
   --sentiment-neutral-glow: hsl(var(--sentiment-neutral) / var(--glow-intensity));
   --sentiment-fear-glow: hsl(var(--sentiment-fear) / var(--glow-intensity));
@@ -597,7 +597,7 @@
 }
 /* ============ Circular Gauge ============ */
 .gauge-ring {
-  filter: drop-shadow(0 0 8px var(--color-cyan-glow));
+  filter: drop-shadow(0 0 5px var(--color-cyan-glow));
   transform: translateZ(0);
 }
 
@@ -613,8 +613,8 @@
 }
 
 .gauge-glow {
-  filter: blur(6px);
-  opacity: 0.6;
+  filter: blur(4px);
+  opacity: 0.35;
 }
 
 /* ============ Sentiment-based Gauge Colors ============ */
@@ -1974,20 +1974,20 @@ textarea {
 }
 
 .btn-primary {
-  border: 1px solid hsl(142 71% 45% / 0.26);
+  border: 1px solid hsl(142 71% 35% / 0.35);
   background: linear-gradient(
     135deg,
-    hsl(142 71% 45%),
-    hsl(142 71% 36%)
+    hsl(142 71% 32%),
+    hsl(142 71% 26%)
   );
-  color: #f5f5f0;
-  box-shadow: 0 12px 28px hsl(142 71% 45% / 0.25);
+  color: #e8efe8;
+  box-shadow: 0 4px 12px hsl(142 71% 35% / 0.15);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  filter: brightness(1.06);
-  box-shadow: 0 18px 34px hsl(142 71% 45% / 0.30);
+  filter: brightness(1.12);
+  box-shadow: 0 8px 20px hsl(142 71% 35% / 0.22);
 }
 
 .btn-secondary {
@@ -2906,4 +2906,100 @@ textarea {
   .backtest-table-scroll-hint {
     text-align: left;
   }
+}
+
+/* ============ Native date input — theme calendar picker ============ */
+input[type="date"],
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color-scheme: dark;
+}
+
+.dark input[type="date"] {
+  background: var(--input-surface-bg);
+  color: hsl(var(--foreground));
+  border-color: var(--input-surface-border);
+  color-scheme: dark;
+}
+
+/* Calendar picker popup accent colour — override browser blue */
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: hsl(var(--foreground));
+}
+
+input[type="date"]:focus::-webkit-datetime-edit {
+  color: hsl(var(--foreground));
+}
+
+/* Today highlight — green instead of browser blue */
+::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(90deg);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.dark ::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(90deg);
+  opacity: 0.6;
+}
+
+/* ============ Select / phase dropdown — dark theme ============ */
+select.input-surface,
+select.input-surface option {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+select.input-surface option:checked,
+select.input-surface option:hover {
+  background: hsl(var(--primary) / 0.18);
+  color: hsl(var(--foreground));
+}
+
+.dark select.input-surface {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: var(--input-surface-border);
+}
+
+.dark select.input-surface option {
+  background: hsl(0 0% 10%);
+  color: hsl(var(--foreground));
+}
+
+.dark select.input-surface option:checked {
+  background: hsl(var(--primary) / 0.20);
+  color: hsl(var(--foreground));
+}
+
+/* ============ Phase / market-phase badge boxes ============ */
+.badge-phase,
+[class*="phase-badge"] {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--foreground) / 0.10);
+  color: hsl(var(--secondary-text));
+  border-radius: 0;
+}
+
+.dark .badge-phase,
+.dark [class*="phase-badge"] {
+  background: hsl(0 0% 10%);
+  border-color: hsl(var(--foreground) / 0.12);
+  color: hsl(var(--secondary-text));
+}
+
+/* Backtest phase select — match themed select */
+.backtest-page select,
+.backtest-page select option {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+.dark .backtest-page select {
+  background: hsl(0 0% 9%);
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--foreground) / 0.12);
+}
+
+.dark .backtest-page select option {
+  background: hsl(0 0% 10%);
+  color: hsl(var(--foreground));
 }
