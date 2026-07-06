@@ -8,7 +8,7 @@ interface AppPageProps {
 
 export const AppPage: React.FC<AppPageProps> = ({ children, className = '' }) => {
   return (
-    <main className={cn('mx-auto min-h-full w-full max-w-7xl px-4 pb-8 pt-4 md:px-6 lg:px-8', className)}>
+    <main className={cn('min-h-full w-full p-4 md:p-6', className)}>
       {children}
     </main>
   );

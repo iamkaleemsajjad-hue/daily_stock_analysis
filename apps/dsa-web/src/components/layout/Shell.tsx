@@ -55,7 +55,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
         />
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto min-w-0 touch-pan-y">
+        <main className="flex-1 overflow-auto h-full min-w-0 touch-pan-y">
           {children ?? <Outlet />}
         </main>
       </div>
