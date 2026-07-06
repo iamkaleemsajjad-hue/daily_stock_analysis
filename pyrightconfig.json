@@ -1,0 +1,18 @@
+{
+  "include": ["."],
+  "exclude": [
+    ".venv",
+    "venv",
+    "node_modules",
+    "__pycache__",
+    "apps"
+  ],
+  "pythonVersion": "3.11",
+  "venvPath": ".",
+  "venv": ".venv",
+  "typeCheckingMode": "basic",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "none",
+  "reportUndefinedVariable": "warning",
+  "extraPaths": ["."]
+}

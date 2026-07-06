@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BarChart3, Clipboard, FileText, Gauge, Layers, ShieldAlert, TrendingUp, WalletCards, Workflow } from 'lucide-react';
+import marketIcon from '../../assets/icon.svg';
 import { historyApi } from '../../api/history';
 import { formatUiText, UI_TEXT } from '../../i18n/uiText';
 import type {
@@ -534,7 +535,7 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fillStyle = `rgba(34,197,94,${alpha})`;
         ctx.fill();
 
         // draw connecting lines to nearby particles
@@ -546,8 +547,8 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.22 * (1 - dist / 38)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(34,197,94,${alpha * 0.28 * (1 - dist / 38)})`;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         });
@@ -575,18 +576,9 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
         />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between relative z-10">
           <div className="flex items-center gap-4 min-w-0">
-            {/* Black/White target icon */}
+            {/* Custom market icon from icon.svg */}
             <div className="market-target-icon shrink-0" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
-                {/* Outer ring */}
-                <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.9" />
-                {/* Mid ring */}
-                <circle cx="24" cy="24" r="15" stroke="currentColor" strokeWidth="2" strokeOpacity="0.65" />
-                {/* Inner ring */}
-                <circle cx="24" cy="24" r="8" stroke="currentColor" strokeWidth="2" strokeOpacity="0.85" />
-                {/* Checkmark */}
-                <path d="M19 24.5l3.5 3.5 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <img src={marketIcon} alt="Market Icon" width="48" height="48" style={{ objectFit: 'contain' }} />
             </div>
             <div className="min-w-0">
               <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold text-secondary-text">
