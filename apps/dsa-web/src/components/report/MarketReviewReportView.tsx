@@ -115,11 +115,11 @@ const splitMarketReviewSections = (markdown: string): MarketReviewSection[] => {
   const intro = markdown.slice(0, matches[0].index).trim();
   const sections: MarketReviewSection[] = intro
     ? [{
-        id: 'overview',
-        title: '复盘概览',
-        content: intro,
-        icon: FileText,
-      }]
+      id: 'overview',
+      title: '复盘概览',
+      content: intro,
+      icon: FileText,
+    }]
     : [];
 
   matches.forEach((match, index) => {
