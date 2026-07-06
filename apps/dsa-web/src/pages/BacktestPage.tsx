@@ -439,8 +439,8 @@ const BacktestPage: React.FC = () => {
       {/* Header */}
       <header className="flex-shrink-0 border-b border-white/5 px-4 py-3">
         {/* Row 1: Search + Filter + Eval + Phase + Dates */}
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <div className="relative min-w-0 flex-[1_1_180px] max-w-xs">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
+          <div className="relative min-w-0 flex-[1_1_320px] max-w-[400px]">
             <input
               type="text"
               value={codeFilter}
@@ -459,7 +459,7 @@ const BacktestPage: React.FC = () => {
           >
             {text.filter}
           </button>
-          <div className="h-5 w-px bg-white/10 mx-1 hidden sm:block" />
+          <div className="h-5 w-px bg-white/10 mx-1 hidden xl:block" />
           <div className="flex items-center gap-2 whitespace-nowrap">
             <span className="text-xs text-muted-text">{text.evalWindow}</span>
             <input
@@ -479,6 +479,7 @@ const BacktestPage: React.FC = () => {
               value={phaseFilter}
               onChange={(e) => setPhaseFilter(e.target.value as BacktestPhaseFilter)}
               disabled={isRunning}
+              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-32`}
             >
               {phaseFilterOptions.map((option) => (
@@ -495,10 +496,11 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateFrom(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
+              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>
-          <div className="flex items-center gap-2 whitespace-nowrap">
+          <div className="flex items-center gap-2 whitespace-nowrap ml-auto">
             <span className="text-xs text-muted-text">{text.endDate}</span>
             <input
               type="date"
@@ -507,6 +509,7 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateTo(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
+              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>
