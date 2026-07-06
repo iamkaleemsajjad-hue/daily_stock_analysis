@@ -579,13 +579,13 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
             <div className="market-target-icon shrink-0" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
                 {/* Outer ring */}
-                <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.9"/>
+                <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.9" />
                 {/* Mid ring */}
-                <circle cx="24" cy="24" r="15" stroke="currentColor" strokeWidth="2" strokeOpacity="0.65"/>
+                <circle cx="24" cy="24" r="15" stroke="currentColor" strokeWidth="2" strokeOpacity="0.65" />
                 {/* Inner ring */}
-                <circle cx="24" cy="24" r="8" stroke="currentColor" strokeWidth="2" strokeOpacity="0.85"/>
+                <circle cx="24" cy="24" r="8" stroke="currentColor" strokeWidth="2" strokeOpacity="0.85" />
                 {/* Checkmark */}
-                <path d="M19 24.5l3.5 3.5 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M19 24.5l3.5 3.5 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
             <div className="min-w-0">
