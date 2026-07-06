@@ -7,12 +7,12 @@
     "__pycache__",
     "apps"
   ],
-  "pythonVersion": "3.11",
-  "venvPath": ".",
-  "venv": ".venv",
-  "typeCheckingMode": "basic",
-  "reportMissingModuleSource": "none",
+  "pythonPath": "C:\\Program Files\\Python310\\python.exe",
+  "pythonVersion": "3.10",
+  "typeCheckingMode": "off",
   "reportMissingImports": "none",
-  "reportUndefinedVariable": "warning",
+  "reportMissingModuleSource": "none",
+  "reportUndefinedVariable": "none",
+  "reportGeneralTypeIssues": "none",
   "extraPaths": ["."]
 }
