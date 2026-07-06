@@ -13,7 +13,7 @@ import { cn } from '../../utils/cn';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { StatusDot } from '../common/StatusDot';
 import { UiLanguageToggle } from '../i18n/UiLanguageToggle';
-import { ThemeToggle } from '../theme/ThemeToggle';
+
 
 type SidebarNavProps = {
   collapsed?: boolean;
@@ -121,16 +121,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
           );
         })}
 
-        {/* Theme toggle as nav item */}
-        <ThemeToggle
-          variant="nav"
-          collapsed={collapsed}
-          wrapperClassName="w-full"
-          triggerClassName={itemBase}
-          triggerActiveClassName={itemActive}
-          iconClassName={iconBase}
-          labelClassName="truncate"
-        />
+
       </nav>
 
       {/* Bottom: Language toggle */}
