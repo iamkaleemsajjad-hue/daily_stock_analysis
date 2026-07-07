@@ -37,7 +37,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
   const pageTitle = TITLES[basePath] ? t(TITLES[basePath]) : t('layout.appFallbackTitle');
 
   return (
-    <header className="flex-shrink-0 flex items-center justify-between h-12 px-4 border-b border-[var(--shell-sidebar-border)] bg-background/90 backdrop-blur-sm z-20">
+    <header className="page-enter flex-shrink-0 flex items-center justify-between h-12 px-4 border-b border-[var(--shell-sidebar-border)] bg-background/90 backdrop-blur-sm z-20">
       <div className="flex items-center">
         {/* Hamburger — works on all screen sizes */}
         <button

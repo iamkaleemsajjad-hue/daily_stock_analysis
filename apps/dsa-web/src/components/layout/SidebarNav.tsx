@@ -74,10 +74,10 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
 
   // Base classes for all nav items
   const itemBase =
-    'group relative flex items-center w-full gap-3 px-4 py-2.5 text-sm text-secondary-text transition-colors duration-150 hover:bg-[var(--nav-hover-bg)] hover:text-foreground rounded-none';
+    'sidebar-nav-item-premium group relative flex items-center w-full gap-3 px-4 py-2.5 text-sm text-secondary-text transition-all duration-200 hover:bg-[var(--nav-hover-bg)] hover:text-foreground rounded-none';
   const itemActive =
-    'bg-[var(--nav-active-bg)] text-foreground font-medium border-l-2 border-[hsl(var(--primary))]';
-  const iconBase = 'h-[18px] w-[18px] shrink-0';
+    'bg-[var(--nav-active-bg)] text-foreground font-medium border-l-2 border-[hsl(var(--primary))] neon-pulse';
+  const iconBase = 'h-[18px] w-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110';
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -87,11 +87,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
           <img
             src={logoSvg}
             alt="DSA Logo"
-            className="h-28 w-28 object-contain dsa-logo-theme"
+            className="h-28 w-28 object-contain dsa-logo-theme float-animate-slow"
           />
         </div>
         {!collapsed && (
-          <span className="text-base font-bold tracking-wide text-foreground leading-none">DSA</span>
+          <span className="text-base font-bold tracking-wide text-foreground leading-none text-glow-static">DSA</span>
         )}
       </div>
 

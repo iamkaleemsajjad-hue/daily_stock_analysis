@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useUiLanguage } from '../../contexts/UiLanguageContext';
 import { cn } from '../../utils/cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gradient' | 'danger' | 'danger-subtle' | 'settings-primary' | 'settings-secondary' | 'action-primary' | 'action-secondary' | 'home-action-ai' | 'home-action-report';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gradient' | 'danger' | 'danger-subtle' | 'settings-primary' | 'settings-secondary' | 'action-primary' | 'action-secondary' | 'home-action-ai' | 'home-action-report' | 'glass' | 'neon' | 'liquid' | 'gradient-border';
   size?: 'xsm' | 'sm' | 'md' | 'lg' | 'xl';
   isLoading?: boolean;
   /** Custom loading text. */
   loadingText?: string;
   glow?: boolean;
+  /** Enable ripple effect on click */
+  ripple?: boolean;
 }
 
 const BUTTON_SIZE_STYLES = {
@@ -36,10 +38,17 @@ const BUTTON_VARIANT_STYLES = {
   'action-secondary': ACTION_REPORT_STYLES,
   'home-action-ai': ACTION_AI_STYLES,
   'home-action-report': ACTION_REPORT_STYLES,
+  // Premium new variants
+  glass: 'btn-glass focus-glow-premium',
+  neon: 'btn-neon focus-glow-premium',
+  liquid: 'btn-liquid focus-glow-premium',
+  'gradient-border': 'btn-gradient-border focus-glow-premium',
 } as const;
 
 /**
- * Button component with multiple variants and terminal-inspired styling.
+ * Button component with multiple variants and premium animation styling.
+ * New variants: 'glass', 'neon', 'liquid', 'gradient-border'
+ * New props: ripple (boolean) — adds a ripple effect on click.
  */
 export const Button: React.FC<ButtonProps> = ({
   children,
@@ -48,16 +57,47 @@ export const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   loadingText,
   glow = false,
+  ripple = false,
   className = '',
   disabled,
   type = 'button',
+  onClick,
   ...props
 }) => {
   const { t } = useUiLanguage();
   const glowStyles = glow ? 'shadow-glow-cyan settings-glow-cyan-hover' : '';
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (ripple && btnRef.current) {
+      const btn = btnRef.current;
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      const rippleEl = document.createElement('span');
+      rippleEl.className = 'ripple';
+      rippleEl.style.cssText = `
+        width: ${size}px; height: ${size}px;
+        left: ${x}px; top: ${y}px;
+        position: absolute; border-radius: 50%;
+        background: hsl(var(--primary) / 0.25);
+        transform: scale(0);
+        animation: ripple-out 0.6s ease-out forwards;
+        pointer-events: none;
+      `;
+      btn.appendChild(rippleEl);
+      setTimeout(() => rippleEl.remove(), 700);
+    }
+    onClick?.(e);
+  };
+
+  // Premium variants skip size overrides for padding (they have their own)
+  const isPremiumVariant = ['glass', 'neon', 'liquid', 'gradient-border'].includes(variant);
 
   return (
     <button
+      ref={btnRef}
       type={type}
       aria-busy={isLoading || undefined}
       data-variant={variant}
@@ -65,36 +105,19 @@ export const Button: React.FC<ButtonProps> = ({
         'inline-flex cursor-pointer items-center justify-center gap-2 font-medium transition-all duration-200',
         'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan/15 focus-visible:ring-offset-0',
         'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none',
-        BUTTON_SIZE_STYLES[size],
+        !isPremiumVariant && BUTTON_SIZE_STYLES[size],
         BUTTON_VARIANT_STYLES[variant],
         glowStyles,
         className,
       )}
       disabled={disabled || isLoading}
+      onClick={handleClick}
       {...props}
     >
       {isLoading ? (
         <span className="flex items-center justify-center gap-2">
-          <svg
-            className="h-4 w-4 animate-spin text-current"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
+          {/* Premium gradient spinner replaces plain SVG spinner */}
+          <span className="premium-spinner" aria-hidden="true" />
           {loadingText ?? t('common.processing')}
         </span>
       ) : (
