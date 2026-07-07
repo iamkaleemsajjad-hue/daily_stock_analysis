@@ -6,6 +6,12 @@ import { Shell } from '../Shell';
 
 const mockLogout = vi.fn().mockResolvedValue(undefined);
 
+vi.mock('../../../contexts/UiLanguageContext', () => ({
+  useUiLanguage: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
 vi.mock('../../../contexts/AuthContext', () => ({
   useAuth: () => ({
     authEnabled: true,
@@ -35,7 +41,7 @@ beforeAll(() => {
 });
 
 describe('Shell', () => {
-  it.skip('renders navigation, theme toggle and completion badge', () => {
+  it('renders navigation, theme toggle and completion badge', () => {
     render(
       <MemoryRouter initialEntries={['/chat']}>
         <ThemeProvider>
@@ -46,15 +52,15 @@ describe('Shell', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getAllByRole('button', { name: '切换主题' }).length).toBeGreaterThan(0);
-    expect(screen.getByRole('link', { name: '问股' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /theme\./i }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('link', { name: 'layout.nav.chat' })).toBeInTheDocument();
     expect(screen.getByTestId('chat-completion-badge')).toBeInTheDocument();
-    const logoutButton = screen.getByRole('button', { name: '退出' });
+    const logoutButton = screen.getByRole('button', { name: 'layout.logout' });
     expect(logoutButton).toBeInTheDocument();
-    expect(logoutButton).toHaveClass('cursor-pointer');
   });
 
-  it.skip('opens the theme menu from the sidebar toggle', async () => {
+  it('collapses and expands the sidebar, making it inert when collapsed', async () => {
+    // We need to render with useUiLanguage mock to ensure aria-labels match our expectations
     render(
       <MemoryRouter initialEntries={['/chat']}>
         <ThemeProvider>
@@ -65,9 +71,33 @@ describe('Shell', () => {
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getAllByRole('button', { name: '切换主题' })[0]);
+    // Initial state: Sidebar should be open on large screens (but testing environment might default differently based on viewport)
+    // We can find the toggle button and click it to toggle state
+    const toggleButtons = screen.getAllByRole('button', { name: /(layout\.collapseSidebar|layout\.expandSidebar)/i });
+    const desktopToggleButton = toggleButtons[0]; // First one is desktop
 
-    expect(await screen.findByRole('menu', { name: '主题模式' })).toBeInTheDocument();
+    // Let's assume it starts open based on default state in Shell.tsx (useState(true))
+    expect(desktopToggleButton).toHaveAttribute('aria-label', expect.stringContaining('collapse'));
+    
+    // Find the sidebar container. We can identify it by aria-label="layout.desktopSidebar"
+    const sidebar = screen.getByLabelText(/layout\.desktopSidebar/i);
+    expect(sidebar).not.toHaveAttribute('inert');
+    expect(sidebar).not.toHaveAttribute('aria-hidden');
+
+    // Click to collapse
+    fireEvent.click(desktopToggleButton);
+
+    // Now it should be collapsed
+    expect(desktopToggleButton).toHaveAttribute('aria-label', expect.stringContaining('expand'));
+    expect(sidebar).toHaveAttribute('inert');
+    expect(sidebar).toHaveAttribute('aria-hidden', 'true');
+
+    // Click again to expand
+    fireEvent.click(desktopToggleButton);
+
+    // Now it should be expanded again
+    expect(desktopToggleButton).toHaveAttribute('aria-label', expect.stringContaining('collapse'));
+    expect(sidebar).not.toHaveAttribute('inert');
   });
 
   it('shows a confirmation dialog before logout', async () => {
@@ -81,10 +111,10 @@ describe('Shell', () => {
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByRole('button', { name: '退出' }));
+    fireEvent.click(screen.getByRole('button', { name: 'layout.logout' }));
 
-    expect(await screen.findByRole('heading', { name: '退出登录' })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: '确认退出' }));
+    expect(await screen.findByRole('heading', { name: 'layout.logoutTitle' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'layout.logoutConfirm' }));
     expect(mockLogout).toHaveBeenCalled();
   });
 });

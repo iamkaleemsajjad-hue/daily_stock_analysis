@@ -44,7 +44,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
           type="button"
           onClick={onToggleSidebar}
           className="hidden lg:inline-flex h-8 w-8 items-center justify-center rounded-none text-secondary-text transition-colors hover:bg-hover hover:text-foreground mr-3"
-          aria-label="Toggle sidebar"
+          aria-label={sidebarOpen ? t('layout.collapseSidebar') : t('layout.expandSidebar')}
         >
           <Menu className="h-5 w-5" />
         </button>
@@ -54,7 +54,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
           type="button"
           onClick={onOpenMobileNav}
           className="inline-flex lg:hidden h-8 w-8 items-center justify-center rounded-none text-secondary-text transition-colors hover:bg-hover hover:text-foreground mr-3"
-          aria-label="Open navigation"
+          aria-label={t('layout.openNav')}
         >
           <Menu className="h-5 w-5" />
         </button>
