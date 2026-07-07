@@ -76,7 +76,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
   const itemBase =
     'sidebar-nav-item-premium group relative flex items-center w-full gap-3 px-4 py-2.5 text-sm text-secondary-text transition-all duration-200 hover:bg-[var(--nav-hover-bg)] hover:text-foreground rounded-none';
   const itemActive =
-    'bg-[var(--nav-active-bg)] text-foreground font-medium border-l-2 border-[hsl(var(--primary))] neon-pulse';
+    'bg-[var(--nav-active-bg)] text-foreground font-medium border-l-2 border-[hsl(var(--primary))]';
   const iconBase = 'h-[18px] w-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110';
 
   return (
