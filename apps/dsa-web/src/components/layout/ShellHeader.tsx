@@ -1,5 +1,6 @@
 import type React from 'react';
-import { Menu, ChevronRight, BarChart3 } from 'lucide-react';
+import { Menu, ChevronRight } from 'lucide-react';
+import logoSvg from '../../assets/logo.svg';
 import { useLocation } from 'react-router-dom';
 import { useUiLanguage } from '../../contexts/UiLanguageContext';
 import { PremiumThemeToggle } from '../theme/PremiumThemeToggle';
@@ -61,11 +62,15 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
         {/* Breadcrumb: DSA > PageName */}
         <div className="flex items-center gap-1.5 text-sm overflow-hidden">
           <div
-            className={`hidden lg:flex h-8 items-center justify-center bg-primary-gradient rounded-none shrink-0 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-              sidebarOpen ? 'w-0 opacity-0 -translate-x-4 mr-0' : 'w-8 opacity-100 translate-x-0 mr-1.5'
+            className={`hidden lg:flex items-center justify-center shrink-0 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+              sidebarOpen ? 'w-0 h-0 opacity-0 -translate-x-4 mr-0' : 'w-10 h-10 opacity-100 translate-x-0 mr-1.5'
             }`}
           >
-            <BarChart3 className="h-[18px] w-[18px] text-[hsl(var(--primary-foreground))]" />
+            <img
+              src={logoSvg}
+              alt="DSA Logo"
+              className="h-10 w-10 object-contain dsa-logo-theme"
+            />
           </div>
           <span className="font-semibold text-foreground">DSA</span>
           <ChevronRight className="h-3.5 w-3.5 text-secondary-text/60 shrink-0" />

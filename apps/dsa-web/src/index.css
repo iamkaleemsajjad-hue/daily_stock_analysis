@@ -594,7 +594,20 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
+
+  /* ============ DSA Logo Theme Inversion ============ */
+  /* Dark mode: show logo as-is */
+  .dsa-logo-theme {
+    filter: none;
+    transition: filter 0.3s ease;
+  }
+
+  /* Light mode: invert(1) swaps black↔white, hue-rotate(180deg) restores green hue */
+  :root:not(.dark) .dsa-logo-theme {
+    filter: invert(1) hue-rotate(180deg);
+  }
 }
+
 
 /* ============ Circular Gauge ============ */
 .gauge-ring {

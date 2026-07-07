@@ -3,6 +3,7 @@ import {
   Activity, BarChart3, Bell, BriefcaseBusiness, Gauge,
   Home, LogOut, MessageSquareQuote, Search, Settings2
 } from 'lucide-react';
+import logoSvg from '../../assets/logo.svg';
 import { NavLink } from 'react-router-dom';
 import { ALPHASIFT_CONFIG_CHANGED_EVENT, SYSTEM_CONFIG_CHANGED_EVENT, alphasiftApi } from '../../api/alphasift';
 import { useAuth } from '../../contexts/AuthContext';
@@ -81,9 +82,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
   return (
     <div className="flex h-full flex-col overflow-hidden">
       {/* Logo / Brand */}
-      <div className="flex items-center gap-2 px-4 py-5 border-b border-[var(--shell-sidebar-border)]">
-        <div className="flex h-8 w-8 items-center justify-center bg-primary-gradient rounded-none shrink-0">
-          <BarChart3 className="h-[18px] w-[18px] text-[hsl(var(--primary-foreground))]" />
+      <div className="flex items-center gap-2 px-4 py-1 border-b border-[var(--shell-sidebar-border)]">
+        <div className="flex h-14 w-14 items-center justify-center shrink-0">
+          <img
+            src={logoSvg}
+            alt="DSA Logo"
+            className="h-28 w-28 object-contain dsa-logo-theme"
+          />
         </div>
         {!collapsed && (
           <span className="text-base font-bold tracking-wide text-foreground leading-none">DSA</span>
