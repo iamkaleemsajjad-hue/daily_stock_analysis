@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState, useEffect, useCallback } from 'react';
+import { useTheme } from 'next-themes';
 import { Check, Minus, X } from 'lucide-react';
 import { backtestApi } from '../api/backtest';
 import type { ParsedApiError } from '../api/error';
@@ -245,6 +246,8 @@ const RunSummary: React.FC<{ data: BacktestRunResponse; language: UiLanguage }> 
 
 const BacktestPage: React.FC = () => {
   const { language, t } = useUiLanguage();
+  const { resolvedTheme } = useTheme();
+  const nativeColorScheme = resolvedTheme === 'dark' ? 'dark' : 'light';
   const text = BACKTEST_TEXT[language];
   const phaseFilterOptions = BACKTEST_PHASE_FILTER_OPTIONS[language];
   const actionLabels = buildDecisionActionLabelMap(t);
@@ -479,7 +482,7 @@ const BacktestPage: React.FC = () => {
               value={phaseFilter}
               onChange={(e) => setPhaseFilter(e.target.value as BacktestPhaseFilter)}
               disabled={isRunning}
-              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
+              style={{ accentColor: '#22c55e', colorScheme: nativeColorScheme }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-32`}
             >
               {phaseFilterOptions.map((option) => (
@@ -496,7 +499,7 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateFrom(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
-              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
+              style={{ accentColor: '#22c55e', colorScheme: nativeColorScheme }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>
@@ -509,7 +512,7 @@ const BacktestPage: React.FC = () => {
               onChange={(e) => setAnalysisDateTo(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isRunning}
-              style={{ accentColor: '#22c55e', colorScheme: 'dark' }}
+              style={{ accentColor: '#22c55e', colorScheme: nativeColorScheme }}
               className={`${BACKTEST_COMPACT_INPUT_CLASS} w-36 tabular-nums`}
             />
           </div>

@@ -39,6 +39,8 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
           'h-screen sticky top-0'
         )}
         aria-label={t('layout.desktopSidebar')}
+        aria-hidden={!sidebarOpen || undefined}
+        {...(!sidebarOpen ? { inert: true } : {})}
       >
         <div style={{ width: SIDEBAR_WIDTH }} className="flex h-full flex-col overflow-hidden">
           <SidebarNav onNavigate={() => setMobileOpen(false)} />

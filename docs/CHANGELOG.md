@@ -20,10 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - [改进] Web AI 建议页新增主股票上下文，复用最近分析和股票索引候选，并改进表现统计零样本说明。
 - [改进] 补充本次设置页布局收敛：移动端分类导航改为横向滚动列表并保证设置内容首屏可见，桌面端保留分类说明并收紧字段布局层级与间距，提升首屏效率与可配置信息密度。
 - [文档] 在 README 快速开始中补充行情数据源配置说明（TUSHARE_TOKEN / Longbridge），明确未配置时仍可走 AkShare、Baostock、YFinance 等免费兜底源，日志中相关提示不影响运行。同步更新docs下的中英双份 README
+- [新功能] 飞书推送新增文件上传能力：`FeishuSender.send_feishu_file(file_path)` 通过 App Bot SDK (`im.v1.file.create`) 上传文件并发送文件消息；Webhook 模式回退为发送文件内容文本；新增 `FEISHU_SEND_AS_FILE=true` 配置开关，开启后飞书以文件形式发送报告而非文字消息。
+- [改进] Web Dashboard UI/UX 现代化重设计（`apps/dsa-web`）：全面升级组件视觉风格（Card、Button、StatCard、ScoreGauge、SectionCard、Shell、ShellHeader、SidebarNav 等），新增 glassmorphism、spatial-card、glow-card 等高级变体，重构 `index.css` 设计系统 token，新增 PremiumThemeToggle 三态切换（system/light/dark），修复侧边栏收起时键盘 Tab 焦点泄漏（`inert` 属性），修复 BacktestPage 原生输入控件 `colorScheme` 硬编码导致浅色主题下渲染异常。仅变更 `apps/dsa-web` 前端，不涉及后端、API、Python 逻辑或数据库迁移。
 
 <!-- 新条目格式：- [类型] 描述（类型取值：新功能/改进/修复/文档/测试/chore）-->
 <!-- 每条独立一行追加到本段末尾，无需分类标题，合并时冲突最小 -->
-- [新功能] 飞书推送新增文件上传能力：`FeishuSender.send_feishu_file(file_path)` 通过 App Bot SDK (`im.v1.file.create`) 上传文件并发送文件消息；Webhook 模式回退为发送文件内容文本；新增 `FEISHU_SEND_AS_FILE=true` 配置开关，开启后飞书以文件形式发送报告而非文字消息。
 
 ## [3.25.0] - 2026-07-03
 
