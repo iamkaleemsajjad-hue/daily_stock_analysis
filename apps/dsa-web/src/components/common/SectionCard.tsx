@@ -26,7 +26,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
     <Card
       className={className}
       padding="md"
-      variant={variant as any}
+      variant={variant}
       enterDelay={enterDelay}
       animatedBorder={animatedBorder}
     >

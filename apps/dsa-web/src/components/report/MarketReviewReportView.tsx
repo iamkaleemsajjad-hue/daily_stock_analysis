@@ -386,7 +386,7 @@ export const MarketReviewReportView: React.FC<MarketReviewReportViewProps> = ({
   const hasStructuredContent = Boolean(marketReviewPayload?.sections?.length || marketReviewPayload?.markets);
   const isLoading = Boolean(recordId && !providedContent && !hasStructuredContent && loadedMarkdown?.recordId !== recordId && !error);
   const rawTitle = marketReviewPayload?.rootTitle || marketReviewPayload?.title || meta?.stockName || 'Market Review';
-  const displayTitle = rawTitle.replace(/[🎯]/g, '').replace(/^#\s*/, '').trim();
+  const displayTitle = rawTitle.replace(/[🎯]/gu, '').replace(/^#\s*/, '').trim();
   const structuredContent = useMemo(
     () => stripTopHeading(content, displayTitle),
     [content, displayTitle],
